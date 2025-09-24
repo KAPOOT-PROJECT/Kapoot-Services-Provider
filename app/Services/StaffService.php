@@ -2,36 +2,29 @@
 
 namespace App\Services;
 
-use App\Models\Service as ServiceModel;
+use App\Models\ServiceProviderStaff;
 
-class ServiceService
+
+class StaffService
 {
-
-
-
-    public function create(array $serviceData)
+    public function create(array $data)
     {
-        try {
-            $service = ServiceModel::create($serviceData);
-            return $service;
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        return ServiceProviderStaff::create($data);
     }
 
     public function all()
     {
-        return ServiceModel::all();
-    }
-    
-    public function update(ServiceModel $service, array $data)
-    {
-        $service->update($data);
-        return $service;
+        return ServiceProviderStaff::all();
     }
 
-    public function delete(ServiceModel $service)
+    public function update(ServiceProviderStaff $staff, array $data)
     {
-        return $service->delete();
+        $staff->update($data);
+        return $staff;
+    }
+
+    public function delete(ServiceProviderStaff $staff)
+    {
+        return $staff->delete();
     }
 }

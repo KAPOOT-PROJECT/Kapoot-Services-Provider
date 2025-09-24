@@ -11,7 +11,7 @@ class UpdateServiceProviderStaffRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,30 @@ class UpdateServiceProviderStaffRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'id' => 'nullable|uuid',
+            'provider_id' => 'sometimes|integer|exists:service_providers,id',
+            'user_id' => 'nullable|uuid',
+            'name' => 'sometimes|string',
+            'phone' => 'sometimes|string',
+            'email' => 'nullable|email',
+            'specializations' => 'nullable|array',
+            'certifications' => 'nullable|array',
+            'is_available' => 'boolean',
+            'current_latitude' => 'nullable|numeric',
+            'current_longitude' => 'nullable|numeric',
+            'location_updated_at' => 'nullable|date',
+            'assigned_vehicle' => 'nullable|string',
+            'active_booking_id' => 'nullable|uuid',
+            'rating' => 'numeric',
+            'total_services' => 'integer',
+            'working_hours' => 'nullable|array',
+            'status' => 'in:active,on_break,offline,on_job',
+            'hourly_rate' => 'nullable|numeric',
+            'hired_date' => 'nullable|date',
+            'emergency_contact' => 'nullable|array',
+            'documents' => 'nullable|array',
+            'profile_photo' => 'nullable|string',
+            'metadata' => 'nullable|array',
         ];
     }
 }

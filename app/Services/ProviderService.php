@@ -6,6 +6,13 @@ use App\Models\ServiceProvider;
 
 class ProviderService
 {
+    public function verify(ServiceProvider $provider)
+    {
+        $provider->is_verified = true;
+        $provider->verified_at = now();
+        $provider->save();
+        return $provider;
+    }
     public function all()
     {
         return ServiceProvider::all();

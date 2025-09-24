@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('service_provider_staff', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->unsignedBigInteger('provider_id'); // Foreign key to service_providers
             $table->uuid('user_id')->nullable(); // Optional link to auth service user
             $table->string('name');
@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('assigned_vehicle')->nullable(); // Vehicle ID/plate for mobile staff
             $table->uuid('active_booking_id')->nullable(); // Currently working on
             $table->decimal('rating', 3, 2)->default(0.00); // Individual staff rating
+            $table->integer('total_reviews')->default(0);
             $table->integer('total_services')->default(0); // Experience metric
             $table->json('working_hours')->nullable(); // Personal schedule
             $table->enum('status', ['active', 'on_break', 'offline', 'on_job'])->default('offline');

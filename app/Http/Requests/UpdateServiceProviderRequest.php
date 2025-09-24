@@ -11,7 +11,7 @@ class UpdateServiceProviderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,32 @@ class UpdateServiceProviderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'user_id' => 'sometimes|uuid',
+            'business_name' => 'sometimes|string',
+            'business_type' => 'nullable|string',
+            'description' => 'nullable|string',
+            'phone' => 'sometimes|string',
+            'email' => 'sometimes|email',
+            'business_hours' => 'sometimes|array',
+            'address' => 'sometimes|array',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
+            'license_number' => 'nullable|string',
+            'license_expiry' => 'nullable|date',
+            'certifications' => 'nullable|array',
+            'is_mobile' => 'boolean',
+            'mobile_radius_km' => 'integer',
+            'commission_rate' => 'numeric',
+            'rating' => 'numeric',
+            'total_reviews' => 'integer',
+            'total_jobs' => 'integer',
+            'status' => 'in:active,inactive,suspended,pending_approval',
+            'is_verified' => 'boolean',
+            'verified_at' => 'nullable|date',
+            'documents' => 'nullable|array',
+            'photos' => 'nullable|array',
+            'payment_details' => 'nullable|array',
+            'metadata' => 'nullable|array',
         ];
     }
 }

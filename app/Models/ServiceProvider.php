@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -39,4 +40,37 @@ class ServiceProvider extends Model
     {
         return $this->license_expiry <= now();
     }
+
+    public function updateRating(float $newRating): void
+    {
+        $total = $this->total_reviews;
+        $current = $this->rating;
+
+        $updatedRating = (($current * $total) + $newRating) / ($total + 1);
+
+        $this->rating = round($updatedRating, 2);
+        $this->total_reviews = $total + 1;
+
+        $this->save();
+    }
+
+    public function incrementJobs(): void
+    {
+        $this->increment('total_jobs');
+    }
+
+
+    protected $casts = [
+        'business_hours'   => 'array',
+        'address'          => 'array',
+        'certifications'   => 'array',
+        'documents'        => 'array',
+        'photos'           => 'array',
+        'payment_details'  => 'array',
+        'metadata'         => 'array',
+        'is_mobile'        => 'boolean',
+        'is_verified'      => 'boolean',
+        'verified_at'      => 'datetime',
+        'license_expiry'   => 'date',
+    ];
 }
