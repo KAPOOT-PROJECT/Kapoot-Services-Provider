@@ -5,10 +5,10 @@ use App\Http\Controllers\ServiceProviderStaffController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+Route::get('providers/nearest', [ServiceProviderController::class, 'nearest']);
 Route::apiResource('providers', ServiceProviderController::class);
 Route::post('providers/{provider}/verify', [ServiceProviderController::class, 'verify']);
 Route::post('providers/{provider}/updateRating', [ServiceProviderController::class, 'updateRating']);
-
 
 Route::apiResource('providersStaff', ServiceProviderStaffController::class);
 Route::post('providersStaff/{providersStaff}/setAvailability', [ServiceProviderStaffController::class, 'setAvailability']);
