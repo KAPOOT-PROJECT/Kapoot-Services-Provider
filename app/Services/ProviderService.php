@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\ServiceProvider;
+use Illuminate\Http\Request;
 
 class ProviderService
 {
@@ -13,9 +14,19 @@ class ProviderService
         $provider->save();
         return $provider;
     }
-    public function all()
+    public function all(Request $request)
     {
-        return ServiceProvider::all();
+        $query = ServiceProvider::query();
+        $query->when($request->has('filtered_active'), function ($query) use ($request) {
+            $query->where('is_active', $request->filtered_active);
+        });
+        $query->when(
+            $request->has('sorted_rating'),
+            function ($query) use ($request) {
+                $query->orderBy('rating', $request->sorted_rating);
+            }
+        );
+        return $query->get();
     }
 
     public function create(array $data)

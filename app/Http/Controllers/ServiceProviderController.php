@@ -20,9 +20,9 @@ class ServiceProviderController extends ApiController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $providers = $this->ProviderService->all();
+        $providers = $this->ProviderService->all($request);
         return ServiceProviderResource::collection($providers);
     }
 
