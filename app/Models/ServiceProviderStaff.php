@@ -17,7 +17,7 @@ class ServiceProviderStaff extends Model
 
     public function provider()
     {
-        return $this->belongsTo(ServiceProvider::class);
+        return $this->belongsTo(ServiceProvider::class , 'provider_id');
     }
 
 

@@ -9,6 +9,8 @@ Route::get('providers/nearest', [ServiceProviderController::class, 'nearest']);
 Route::apiResource('providers', ServiceProviderController::class);
 Route::post('providers/{provider}/verify', [ServiceProviderController::class, 'verify']);
 Route::post('providers/{provider}/updateRating', [ServiceProviderController::class, 'updateRating']);
+Route::get('availble-providers', [ServiceProviderController::class , 'available']);
+
 
 Route::apiResource('providersStaff', ServiceProviderStaffController::class);
 Route::post('providersStaff/{providersStaff}/setAvailability', [ServiceProviderStaffController::class, 'setAvailability']);

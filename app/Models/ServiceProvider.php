@@ -15,9 +15,9 @@ class ServiceProvider extends Model
 
     protected $guarded = [];
 
-    public function Staff()
+    public function staff()
     {
-        return $this->hasMany(ServiceProviderStaff::class);
+        return $this->hasMany(ServiceProviderStaff::class , 'provider_id');
     }
 
     #[Scope]
