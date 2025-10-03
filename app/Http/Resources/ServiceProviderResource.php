@@ -36,8 +36,7 @@ class ServiceProviderResource extends JsonResource
             'photos' => $this->photos,
             'payment_details' => $this->payment_details,
             'metadata' => $this->metadata,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'staff'    =>  ServiceProviderStaffResource::collection($this->staff),
         ];
     }
 }

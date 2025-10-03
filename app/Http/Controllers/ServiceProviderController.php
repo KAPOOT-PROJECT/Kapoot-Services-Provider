@@ -118,25 +118,12 @@ class ServiceProviderController extends ApiController
 
 public function available(Request $request)
 {
-    // دریافت سرویس‌پروایدرهای فعال
-    // $activeProviders = ServiceProvider::where('status', 'active')->get();
-
-    // $availableStaff = collect();
-
-    // foreach ($activeProviders as $provider) {
-    //     // دریافت کارمندان در دسترس برای هر سرویس‌پروایدر
-    //     $staff = $provider->staff()->available()->get();
-    //     $availableStaff = $availableStaff->merge($staff);
-    // }
-
-    // dd($availableStaff);
-     // دریافت سرویس‌پروایدرهای فعال همراه با کارمندان در دسترسشان
     $providers = ServiceProvider::where('status', 'active')
         ->with(['staff' => function($query) {
             $query->available();
         }])
         ->get();
 
-    dd($providers);
+    return ServiceProviderResource::collection($providers);
 }
 }
