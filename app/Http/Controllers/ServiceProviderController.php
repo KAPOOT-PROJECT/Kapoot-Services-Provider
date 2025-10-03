@@ -97,11 +97,13 @@ class ServiceProviderController extends ApiController
             // }
 
             $results = Redis::georadius('loc:service-providers', $userLng, $userLat, 20, 'km', [
-                'ASC', 'WITHDIST', 'COUNT' => 1
+                'ASC',
+                'WITHDIST',
+                'COUNT' => 1
             ]);
 
             if (empty($results)) {
-                return self::error(message: "هیچ خدمات دهنده ای در نزدیکی شما پیدا نشد", code:404);
+                return self::error(message: "هیچ خدمات دهنده ای در نزدیکی شما پیدا نشد", code: 404);
             }
 
             return self::success([
@@ -110,20 +112,30 @@ class ServiceProviderController extends ApiController
             ]);
 
         } catch (\Throwable $e) {
-            return self::error(message: "{$e->getMessage()} in {$e->getFile()}: {$e->getLine()}.", errors:[
+            return self::error(message: "{$e->getMessage()} in {$e->getFile()}: {$e->getLine()}.", errors: [
                 'trace' => $e->getTrace()
             ]);
         }
     }
 
-public function available(Request $request)
-{
-    $providers = ServiceProvider::where('status', 'active')
-        ->with(['staff' => function($query) {
-            $query->available();
-        }])
-        ->get();
+    public function available(Request $request)
+    {
+        $providers = ServiceProvider::where('status', 'active')
+            ->with([
+                'staff' => function ($query) {
+                    $query->available();
+                }
+            ])->get();
+        $availbleProviders = [];
+        foreach ($providers as $provider) {
+            if (isset($provider->business_hours[now()->dayName])) {
+                $hours = explode('-', $provider->business_hours[now()->dayName]);
+                if (now()->format('H:i') >= $hours[0] and now()->format('H:i') <= $hours[1]) {
+                    $availbleProviders[] = $provider;
+                }
+            }
+        }
 
-    return ServiceProviderResource::collection($providers);
-}
+        return ServiceProviderResource::collection($availbleProviders);
+    }
 }
